@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In - Trimly</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+    <style>
+      /* General styles */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f7fc;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        font-size: 2em;
+        color: #4caf50;
+        margin-bottom: 20px;
+      }
+
+      /* Registration form styles */
+      .login-form form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .login-form label {
+        font-size: 16px;
+        margin-bottom: 8px;
+        color: #4caf50;
+      }
+
+      .login-form input,
+      .login-form button {
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+
+      .login-form input:focus,
+      .login-form button:focus {
+        outline: none;
+        border-color: #4caf50;
+      }
+
+      .login-form button {
+        padding: 10px 20px;
+        font-size: 1.1em;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+      }
+
+      .login-form button:hover {
+        background-color: #337436;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .container {
+          padding: 15px;
+        }
+
+        .login-form form {
+          padding: 0 10px;
+        }
+      }
+
+      .dark .container {
+        background-color: #2c2c2c;
+      }
+      .dark input {
+        background-color: #444;
+        color: #f9f9f9;
+      }
+      .dark select {
+        background-color: #444;
+        color: #f9f9f9;
+      }
+      .dark .terms-container label {
+        color: white;
+      }
+    </style>
+  </head>
+  <body class="light">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-title"><i class="fas fa-scissors"></i> Trimly</div>
+      <div class="header-buttons">
+        <a href="#"> <i class="fas fa-sign-in-alt"></i> Sign In </a>
+        <a href="#"> <i class="fas fa-user-plus"></i> Sign Up </a>
+        <a id="themeToggle"><i class="fas fa-moon"></i> Dark Mode</a>
+      </div>
+    </header>
+
+    <!-- Registration Form Section -->
+    <div class="container">
+      <div class="login-form">
+        <h2><i class="fas fa-sign-in-alt"></i> Sign-In</h2>
+        <form action="/signin" method="POST">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+
+          <button type="submit">Sign In</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+      <p>&copy; 2024 Trimly. All Rights Reserved.</p>
+      <p>
+        <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> |
+        <a href="#">Contact Us</a>
+      </p>
+    </footer>
+
+    <script src="/js/script.js"></script>
+  </body>
+</html>
