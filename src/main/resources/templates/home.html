@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trimly - URL Shortener</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body class="light">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-title"><i class="fas fa-scissors"></i> Trimly</div>
+      <div class="header-buttons">
+        <a href="#"> <i class="fas fa-sign-in-alt"></i> Sign In </a>
+        <a href="#"> <i class="fas fa-user-plus"></i> Sign Up </a>
+        <a id="themeToggle"><i class="fas fa-moon"></i> Dark Mode</a>
+      </div>
+    </header>
+
+    <!-- URL Shortener Section -->
+    <div class="container">
+      <div class="url-shortener">
+        <h2>Shorten Your URL</h2>
+        <form action="/shorten" method="POST">
+          <input
+            type="text"
+            name="originalUrl"
+            placeholder="Enter URL"
+            required
+          />
+          <button type="submit">Shorten</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Single Table for Features -->
+    <div class="card-container">
+      <h3>Benefits of Using Trimly</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Non-Registered Users</th>
+            <th>Registered Users</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Shorten any URL easily</td>
+            <td class="check">✔</td>
+            <td class="check">✔</td>
+          </tr>
+          <tr>
+            <td>Save time while sharing</td>
+            <td class="check">✔</td>
+            <td class="check">✔</td>
+          </tr>
+          <tr>
+            <td>No need for an account</td>
+            <td class="check">✔</td>
+            <td class="cross">✘</td>
+          </tr>
+          <tr>
+            <td>Lifetime saved shortened URLs</td>
+            <td class="cross">✘</td>
+            <td class="check">✔</td>
+          </tr>
+          <tr>
+            <td>View link statistics</td>
+            <td class="cross">✘</td>
+            <td class="check">✔</td>
+          </tr>
+          <tr>
+            <td>Manage your links</td>
+            <td class="cross">✘</td>
+            <td class="check">✔</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="text-align: center; margin-top: 20px">
+        <a href="/register">
+          <button><i class="fas fa-user-plus"></i> Sign Up</button>
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+      <p>&copy; 2024 Trimly. All Rights Reserved.</p>
+      <p>
+        <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> |
+        <a href="#">Contact Us</a>
+      </p>
+    </footer>
+
+    <script src="/js/script.js"></script>
+  </body>
+</html>
