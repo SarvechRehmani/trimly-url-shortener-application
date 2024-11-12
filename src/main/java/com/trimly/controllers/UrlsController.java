@@ -16,7 +16,7 @@ public class UrlsController {
         return "login.html";
     }
 
-    @GetMapping("/register")
+    @GetMapping("/sign-up")
     public String register(){
         return "register.html";
     }

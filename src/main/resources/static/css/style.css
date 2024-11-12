@@ -172,9 +172,6 @@ td {
   color: white;
   padding: 20px;
   text-align: center;
-  bottom: 0;
-  width: 100%;
-  opacity: 0;
   animation: fadeIn 3s forwards;
 }
 
