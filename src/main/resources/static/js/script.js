@@ -26,3 +26,32 @@ themeToggleButton.addEventListener("click", () => {
       : '<i class="fas fa-moon"></i> Light Mode';
   localStorage.setItem("theme", newTheme); // Save new theme to localStorage
 });
+
+// Toggle navbar
+document.addEventListener("DOMContentLoaded", function () {
+  // Make sure elements are available
+  const hamburgerMenu = document.getElementById("hamburgerMenu");
+  const navbarButtons = document.getElementById("navbarButtons");
+
+  console.log("Hamburger Menu:", hamburgerMenu); // Check if it is found
+  console.log("Navbar Buttons:", navbarButtons); // Check if it is found
+
+  if (hamburgerMenu && navbarButtons) {
+    // Handle hamburger menu toggle
+    hamburgerMenu.addEventListener("click", function () {
+      navbarButtons.classList.toggle("show"); // Toggle the "show" class to show/hide the navbar
+    });
+
+    // Optional: If the user clicks outside the navbar, close it
+    document.addEventListener("click", function (event) {
+      if (
+        !navbarButtons.contains(event.target) &&
+        !hamburgerMenu.contains(event.target)
+      ) {
+        navbarButtons.classList.remove("show");
+      }
+    });
+  } else {
+    console.error("Hamburger or Navbar Buttons element not found.");
+  }
+});

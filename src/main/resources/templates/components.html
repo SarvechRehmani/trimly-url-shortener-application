@@ -1,13 +1,16 @@
 <!-- Header -->
 <header class="header" th:fragment="navbar">
   <div class="header-title"><i class="fas fa-scissors"></i> Trimly</div>
-  <div class="header-buttons">
+  <div class="header-buttons" id="navbarButtons">
     <a href="/sign-in"> <i class="fas fa-sign-in-alt"></i> Sign In </a>
     <a href="/sign-up"> <i class="fas fa-user-plus"></i> Sign Up </a>
     <a id="themeToggle"><i class="fas fa-moon"></i> Dark Mode</a>
   </div>
+  <!-- Hamburger Menu Icon -->
+  <div class="hamburger" id="hamburgerMenu">
+    <i class="fas fa-bars"></i>
+  </div>
 </header>
-
 <!-- Footer -->
 <footer class="footer" th:fragment="footer">
   <p>&copy; 2024 Trimly. All Rights Reserved.</p>
