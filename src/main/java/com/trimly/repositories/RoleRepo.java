@@ -1,6 +1,6 @@
 package com.trimly.repositories;
 
-import com.trimly.entities.Role;
+import com.trimly.models.entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

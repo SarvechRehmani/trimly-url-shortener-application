@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html
+  class="light"
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:fragment="parent(content, title, script)"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- FONT AWESOME CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" data-th-href="@{/css/style.css}" />
+
+    <title data-th-replace="${title}">Trimly</title>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div data-th-replace="~{components :: navbar}"></div>
+
+    <!-- MAIN CONTENT -->
+    <div>
+      <section data-th-replace="${content}"></section>
+    </div>
+
+    <!-- FOOTER -->
+    <div data-th-replace="~{components :: footer}"></div>
+
+    <!-- SCRIPT -->
+    <script th:src="@{'/js/script.js'}"></script>
+    <th:block data-th-replace="${script}"></th:block>
+  </body>
+</html>
