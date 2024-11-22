@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  th:replace="~{base :: parent(~{::#content},~{::title}, ~{::script})}"
+>
+  <head>
+    <title>Trimly - URL Shortener</title>
+  </head>
+  <body class="light">
+    <!-- Header -->
+    <header th:replace="components :: navbar"></header>
+
+    <section id="content">
+      <!-- URL Shortener Section -->
+      <div class="container">
+        <div class="url-shortener">
+          <h2>Shorten Your URL</h2>
+          <form action="/shorten" method="POST">
+            <input
+              type="text"
+              name="originalUrl"
+              placeholder="Enter URL"
+              required
+            />
+            <button type="submit">Shorten</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Single Table for Features -->
+      <div class="card-container">
+        <h3>Benefits of Using Trimly</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Non-Registered Users</th>
+              <th>Registered Users</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Shorten any URL easily</td>
+              <td class="check">✔</td>
+              <td class="check">✔</td>
+            </tr>
+            <tr>
+              <td>Save time while sharing</td>
+              <td class="check">✔</td>
+              <td class="check">✔</td>
+            </tr>
+            <tr>
+              <td>No need for an account</td>
+              <td class="check">✔</td>
+              <td class="cross">✘</td>
+            </tr>
+            <tr>
+              <td>Lifetime saved shortened URLs</td>
+              <td class="cross">✘</td>
+              <td class="check">✔</td>
+            </tr>
+            <tr>
+              <td>View link statistics</td>
+              <td class="cross">✘</td>
+              <td class="check">✔</td>
+            </tr>
+            <tr>
+              <td>Manage your links</td>
+              <td class="cross">✘</td>
+              <td class="check">✔</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="text-align: center; margin-top: 20px">
+          <a href="/sign-up">
+            <button><i class="fas fa-user-plus"></i> Sign Up</button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <script></script>
+  </body>
+</html>
