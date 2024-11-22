@@ -47,7 +47,10 @@ public class UrlsController {
     public String registerUser(@Valid @ModelAttribute UserDto userDto, BindingResult result, Model model, HttpSession session) {
         // Check if user already exists
 
-        userService.findUserByEmail(userDto.getEmail()).ifPresent(user -> session.setAttribute("message", new Message("Registration Successful", MessageType.green)));
+        if(userService.findUserByEmail(userDto.getEmail()).orElse(null) != null){
+            session.setAttribute("message", new Message("Registration Successful", MessageType.green));
+            return "register";
+        }
 
         // If validation errors, return to the registration page
         if (result.hasErrors()) {
