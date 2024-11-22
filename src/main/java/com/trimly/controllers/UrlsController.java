@@ -1,16 +1,18 @@
 package com.trimly.controllers;
 
 import com.trimly.exceptions.ResourceFoundException;
+import com.trimly.helper.Message;
+import com.trimly.helper.MessageType;
 import com.trimly.models.entities.User;
 import com.trimly.models.request.UserDto;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import com.trimly.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UrlsController {
@@ -41,16 +43,15 @@ public class UrlsController {
         return "register.html";
     }
 
-    @PostMapping("/registerUser")
-    public String registerUser(UserDto userDto, BindingResult result, Model model) {
+    @PostMapping("/register")
+    public String registerUser(@Valid @ModelAttribute UserDto userDto, BindingResult result, Model model, HttpSession session) {
         // Check if user already exists
 
-        userService.findUserByEmail(userDto.getEmail())
-                .orElseThrow(()-> new ResourceFoundException("Email is already taken."));
+        userService.findUserByEmail(userDto.getEmail()).ifPresent(user -> session.setAttribute("message", new Message("Registration Successful", MessageType.green)));
 
         // If validation errors, return to the registration page
         if (result.hasErrors()) {
-            return "redirect:/sign-up";
+            return "register";
         }
 
         User user = convertToEntity(userDto);
