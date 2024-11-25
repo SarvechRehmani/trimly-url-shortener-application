@@ -1,86 +1,96 @@
 package com.trimly.controllers;
 
-import com.trimly.exceptions.ResourceFoundException;
 import com.trimly.helper.Message;
 import com.trimly.helper.MessageType;
 import com.trimly.models.entities.User;
 import com.trimly.models.request.UserDto;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import com.trimly.services.UserService;
+import com.trimly.services.imple.UserServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
+
 
 @Controller
 public class UrlsController {
 
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     private final ModelMapper modelMapper;
 
-    public UrlsController(UserService userService, ModelMapper modelMapper) {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public UrlsController(UserServiceImpl userService, ModelMapper modelMapper) {
         this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
+//    Home Controller
     @GetMapping("/")
-    public String home() {
+    public String index() {
         return "home.html";
     }
 
+    @GetMapping("/home")
+    public String home() {
+        return "redirect:/";
+    }
+
+//    Sign-in Controller
     @GetMapping("/sign-in")
     public String login() {
         return "login.html";
     }
 
+
+//    Sign-up Controller
     @GetMapping("/sign-up")
     public String register(Model model) {
         model.addAttribute("userDto", new UserDto());
         return "register.html";
     }
 
+//    Sign-up process Controller
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute UserDto userDto, BindingResult result, Model model, HttpSession session) {
-        // Check if user already exists
 
+        // Check if user already exists, return to the registration page
         if(userService.findUserByEmail(userDto.getEmail()).orElse(null) != null){
-            session.setAttribute("message", new Message("Registration Successful", MessageType.green));
-            return "register";
+            logger.error("This email is already registered. Please use a different email.");
+            session.setAttribute("message", new Message("This email is already registered. Please use a different email.", MessageType.red));
+            return "redirect:/sign-up";
         }
 
-        // If validation errors, return to the registration page
+        // validation errors, return to the registration page
         if (result.hasErrors()) {
-            return "register";
+            logger.error("Data is not set properly from sign-up form.");
+            return "/register";
         }
 
-        User user = convertToEntity(userDto);
-
-        System.out.println("registration");
+//        Save User to the Database
+        User user = convertToUser(userDto);
         userService.registerUser(user, "USER");
+        logger.info("Registration Successful.");
+        session.setAttribute("message", new Message("Registration Successful!", MessageType.green));
         return "redirect:/sign-in";
     }
 
 
-//    @PostMapping("/login")
-//    public String loginUser(@RequestParam("email") String email, @RequestParam("password") String password, Model model) {
-        // Check if username and password match (you can replace this with your authentication logic)
-//        User user = this.userService.authenticate(email, password);
-
-//        if (user != null) {
-//            model.addAttribute("user",user);
-//            return "redirect:/"; // Redirect to the home page after successful login
-//        } else {
-//            model.addAttribute("error", "Invalid username or password"); // Add an error message
-//            return "login"; // Return to the login page with an error message
-//        }
-//    }
-
     // Method to convert DTO to entity
-    public User convertToEntity(UserDto userDto) {
+    public User convertToUser(UserDto userDto) {
         return modelMapper.map(userDto, User.class);
     }
 }
