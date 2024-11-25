@@ -33,9 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const hamburgerMenu = document.getElementById("hamburgerMenu");
   const navbarButtons = document.getElementById("navbarButtons");
 
-  console.log("Hamburger Menu:", hamburgerMenu); // Check if it is found
-  console.log("Navbar Buttons:", navbarButtons); // Check if it is found
-
   if (hamburgerMenu && navbarButtons) {
     // Handle hamburger menu toggle
     hamburgerMenu.addEventListener("click", function () {

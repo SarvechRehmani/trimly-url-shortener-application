@@ -428,6 +428,7 @@ button:hover {
     z-index: 1000; /* Add a higher z-index to bring the navbar above other content */
     border-bottom: #4caf50 5px solid;
     border-radius: 0 0 10px 10px;
+    animation: fadeIn 0.5s forwards;
   }
 
   .header-buttons.show {
