@@ -154,11 +154,13 @@ body {
 }
 
 table {
+  background-color: #e4e4e4;
   width: 100%;
-  border-radius: 12px !important;
-  border: #45a049 2px solid;
+  border-radius: 12px;
   border-collapse: collapse;
   text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
   opacity: 0;
   animation: fadeIn 2s forwards;
 }
@@ -167,17 +169,11 @@ th,
 td {
   padding: 15px;
   font-size: 1.1em;
-  border: 1px solid #ddd;
-  transition: background-color 0.3s ease;
 }
 
 th {
   background-color: #4caf50;
   color: white;
-}
-
-td {
-  background-color: #f9f9f9;
 }
 
 .check {
@@ -349,8 +345,16 @@ button:hover {
   background-color: white;
 }
 
-.light .table th {
+.light table th {
   background-color: #4caf50;
+}
+.light tbody tr {
+  border-bottom: solid 1px #c9c9c9;
+  transition: all 0.2s ease-in-out;
+}
+
+.light tbody tr:hover {
+  background-color: #c9c9c9;
 }
 .light .footer {
   background-color: #4caf50;
@@ -391,11 +395,17 @@ button:hover {
   border-color: #4caf50;
 }
 
-.dark .table th {
-  background-color: #333;
-}
-.dark td {
+.dark table {
   background-color: #444;
+}
+
+.dark tbody tr {
+  border-bottom: solid 1px #5c5c5c;
+  transition: all 0.2s ease-in-out;
+}
+
+.dark tbody tr:hover {
+  background-color: #5c5c5c;
 }
 
 .dark .form-container {

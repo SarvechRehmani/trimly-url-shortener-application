@@ -10,6 +10,9 @@ import org.modelmapper.ModelMapper;
 import com.trimly.services.imple.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +35,14 @@ public class UrlsController {
 
 //    Home Controller
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        // Check if the user is authenticated
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean authenticated = authentication != null && !(authentication instanceof AnonymousAuthenticationToken);
+        // Pass the 'authenticated' variable to the view
+        model.addAttribute("authenticated", authenticated);
+
+        logger.info("home.html");
         return "home.html";
     }
 
@@ -44,7 +54,15 @@ public class UrlsController {
 //    Sign-in Controller
     @GetMapping("/sign-in")
     public String login(Model model) {
+        // Check if user is authenticated
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            // If the user is authenticated, redirect to the home page
+            logger.info("Redirecting from : login.html");
+            return "redirect:/";
+        }
         model.addAttribute("currentPage", "sign-in");
+        logger.info("login.html");
         return "login.html";
     }
 
@@ -52,15 +70,22 @@ public class UrlsController {
 //    Sign-up Controller
     @GetMapping("/sign-up")
     public String register(Model model) {
+        // Check if user is authenticated
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            // If the user is authenticated, redirect to the home page
+            logger.info("Redirecting from : register.html");
+            return "redirect:/";
+        }
         model.addAttribute("currentPage", "sign-up");
         model.addAttribute("userDto", new UserDto());
+        logger.info("register.html");
         return "register.html";
     }
 
 //    Sign-up process Controller
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute UserDto userDto, BindingResult result, Model model, HttpSession session) {
-
         // Check if user already exists, return to the registration page
         if(userService.findUserByEmail(userDto.getEmail()).orElse(null) != null){
             logger.error("This email is already registered. Please use a different email.");
@@ -74,7 +99,7 @@ public class UrlsController {
             return "/register";
         }
 
-//        Save User to the Database
+//      Save User to the Database
         User user = convertToUser(userDto);
         userService.registerUser(user, "USER");
         logger.info("Registration Successful.");

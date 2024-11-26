@@ -6,15 +6,20 @@
   <div class="header-buttons" id="navbarButtons">
     <a
       href="/sign-in"
+      th:if="!${authenticated}"
       th:class="${currentPage == 'sign-in'} ? 'currentPage' : ''"
     >
       <i class="fas fa-sign-in-alt"></i> Sign In
     </a>
     <a
       href="/sign-up"
+      th:if="!${authenticated}"
       th:class="${currentPage == 'sign-up'} ? 'currentPage' : ''"
     >
       <i class="fas fa-user-plus"></i> Sign Up
+    </a>
+    <a href="/logout" th:if="${authenticated}">
+      <i class="fas fa-sign-out-alt"></i> Sign-out
     </a>
     <a id="themeToggle"><i class="fas fa-moon"></i> Dark Mode</a>
   </div>
