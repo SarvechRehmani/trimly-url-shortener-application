@@ -2,7 +2,6 @@ package com.trimly.config;
 
 import com.trimly.helper.Message;
 import com.trimly.helper.MessageType;
-import com.trimly.helper.hadlers.CustomLogoutSuccessHandler;
 import com.trimly.services.CustomUserDetailsService;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
