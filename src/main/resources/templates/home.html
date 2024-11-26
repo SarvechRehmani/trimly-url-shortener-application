@@ -6,11 +6,9 @@
   <head>
     <title>Trimly - URL Shortener</title>
   </head>
-  <body class="light">
-    <!-- Header -->
-    <header th:replace="components :: navbar"></header>
-
+  <body>
     <section id="content">
+      <div th:replace="~{components :: alertBox}"></div>
       <!-- URL Shortener Section -->
       <div class="container">
         <div class="url-shortener">
@@ -48,11 +46,6 @@
               <td>Save time while sharing</td>
               <td class="check">✔</td>
               <td class="check">✔</td>
-            </tr>
-            <tr>
-              <td>No need for an account</td>
-              <td class="check">✔</td>
-              <td class="cross">✘</td>
             </tr>
             <tr>
               <td>Lifetime saved shortened URLs</td>

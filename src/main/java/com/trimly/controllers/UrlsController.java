@@ -51,7 +51,8 @@ public class UrlsController {
 
 //    Sign-in Controller
     @GetMapping("/sign-in")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("currentPage", "sign-in");
         return "login.html";
     }
 
@@ -59,6 +60,7 @@ public class UrlsController {
 //    Sign-up Controller
     @GetMapping("/sign-up")
     public String register(Model model) {
+        model.addAttribute("currentPage", "sign-up");
         model.addAttribute("userDto", new UserDto());
         return "register.html";
     }

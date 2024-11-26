@@ -1,7 +1,12 @@
 package com.trimly.config;
 
+import com.trimly.helper.Message;
+import com.trimly.helper.MessageType;
 import com.trimly.helper.hadlers.CustomLogoutSuccessHandler;
 import com.trimly.services.CustomUserDetailsService;
+import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +24,7 @@ public class SecurityConfig {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
-    @Autowired
-    private CustomLogoutSuccessHandler customLogoutSuccessHandler;  // Inject the custom logout success handler
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
 
     @Bean
@@ -33,19 +37,39 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/sign-in")
                         .loginProcessingUrl("/authenticate")
-                        .failureUrl("/sign-in?error=true")
+                        .successHandler((request, response, authentication) -> {
+                            HttpSession session = request.getSession();
+                            session.setAttribute("message", new Message("Welcome back to Trimly! You’ve successfully logged in.", MessageType.green));
+                            response.sendRedirect("/");
+                        })
+                        .failureHandler((request, response, exception) -> {
+                            HttpSession session = request.getSession();
+                            session.setAttribute("message", new Message("Oops! Login failed. Please check your email and password, then try again.", MessageType.red));
+                            response.sendRedirect("/sign-in");
+                        })
                         .usernameParameter("email")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/")
+
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessHandler(customLogoutSuccessHandler) // Use custom handler
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            HttpSession session = request.getSession();
+                            if (authentication != null) {
+                                // Set a success message in the session
+                                session.setAttribute("message", new Message("Logout Successfully!", MessageType.green));
+                                logger.info("User {} logged out successfully.", authentication.getName());
+                            } else {
+                                session.setAttribute("message", new Message("You are not sign-in for logout!", MessageType.red));
+                                logger.info("Logout successful, no authenticated user.");
+                            }
+                            response.sendRedirect("/sign-in");
+                        })
+
                         .invalidateHttpSession(true)  // Invalidate the session after logout
                         .clearAuthentication(true)  // Clear authentication
                 );
-
         return http.build();
     }
 

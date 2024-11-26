@@ -12,9 +12,13 @@
       <div class="form-container">
         <div class="form">
           <div th:replace="~{components :: alertBox}"></div>
+          <!-- if use /sign-in?logout=true or /sign-in?error=true -->
+          <!-- <div th:if="${param.logout}">
+            <div th:replace="~{components :: logoutAlert}"></div>
+          </div>
           <div th:if="${param.error}">
             <div th:replace="~{components :: invalidAlert}"></div>
-          </div>
+          </div> -->
           <h2><i class="fas fa-sign-in-alt"></i> Sign-In</h2>
           <form th:action="@{/authenticate}" method="POST">
             <div class="mb-3 flex-column">

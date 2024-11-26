@@ -61,6 +61,11 @@ body {
   transform: scale(1.05);
 }
 
+.currentPage {
+  background-color: #358b39 !important;
+  color: #fff !important;
+}
+
 /* Hamburger Menu (hidden by default) */
 .hamburger {
   display: none;
@@ -420,7 +425,7 @@ button:hover {
     gap: 10px;
     width: 100%;
     position: absolute;
-    top: 50px; /* Adjust the position */
+    top: 63px;
     left: 0;
     background-color: #9dd69f;
     padding: 15px 0;
