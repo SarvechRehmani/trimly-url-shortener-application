@@ -8,6 +8,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <!-- Sweet alert -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css"
+      rel="stylesheet"
+    />
+
     <!-- Google Material Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -42,6 +48,7 @@
     <div data-th-replace="~{components :: footer}"></div>
 
     <!-- SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script th:src="@{'/js/script.js'}"></script>
     <th:block data-th-replace="${script}"></th:block>
   </body>

@@ -33,6 +33,9 @@ public class User implements UserDetails{
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Link> links = new ArrayList<>();
+
     public User(String fullName, String email, String password, String phone, String gender, List<String> roles) {
 
         this.fullName = fullName;

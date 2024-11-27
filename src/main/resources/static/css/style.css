@@ -476,8 +476,8 @@ button:hover {
   .card-container {
     padding: 20px; /* Reduce padding */
   }
-
-  /* Table becomes horizontally scrollable on small screens */
+  horizontally
+  /* Table becomes  scrollable on small screens */
   table {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch; /* Improve scrolling experience on iOS */
@@ -585,4 +585,57 @@ button:hover {
   clip-path: inset(50%);
   white-space: nowrap;
   overflow: hidden;
+}
+
+/* CheckBox */
+.checkbox {
+  display: none;
+}
+
+.switch {
+  display: inline-flex;
+  gap: 30px;
+}
+
+.slider {
+  width: 40px;
+  height: 20px;
+  background-color: lightgray;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border: 4px solid transparent;
+  transition: 0.3s;
+  box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.25) inset;
+  cursor: pointer;
+}
+
+.dark .slider {
+  background-color: #444;
+}
+
+.slider::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  transform: translateX(-20px);
+  border-radius: 20px;
+  transition: 0.3s;
+  box-shadow: 0 0 10px 3px rgb(0, 0, 0, 0.25);
+}
+
+.checkbox:checked ~ .slider::before {
+  transform: translateX(20px);
+  box-shadow: 0 0 10px 3px rgb(0, 0, 0, 0.25);
+}
+
+.checkbox:checked ~ .slider {
+  background-color: #4caf50;
+}
+
+.checkbox:active ~ .slider::before {
+  transform: translate(0);
 }

@@ -2,8 +2,10 @@ package com.trimly.controllers;
 
 import com.trimly.helper.Message;
 import com.trimly.helper.MessageType;
+import com.trimly.models.entities.Link;
 import com.trimly.models.entities.User;
 import com.trimly.models.request.UserDto;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -41,7 +43,6 @@ public class UrlsController {
         boolean authenticated = authentication != null && !(authentication instanceof AnonymousAuthenticationToken);
         // Pass the 'authenticated' variable to the view
         model.addAttribute("authenticated", authenticated);
-
         logger.info("home.html");
         return "home.html";
     }
@@ -53,7 +54,7 @@ public class UrlsController {
 
 //    Sign-in Controller
     @GetMapping("/sign-in")
-    public String login(Model model) {
+    public String login(Model model, HttpServletRequest request) {
         // Check if user is authenticated
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
@@ -92,13 +93,11 @@ public class UrlsController {
             session.setAttribute("message", new Message("This email is already registered. Please use a different email.", MessageType.red));
             return "redirect:/sign-up";
         }
-
         // validation errors, return to the registration page
         if (result.hasErrors()) {
             logger.error("Data is not set properly from sign-up form.");
             return "/register";
         }
-
 //      Save User to the Database
         User user = convertToUser(userDto);
         userService.registerUser(user, "USER");

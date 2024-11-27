@@ -21,6 +21,56 @@
               required
             />
             <button type="submit">Shorten</button>
+
+            <div>
+              <label class="switch"
+                >Extra Features :
+                <input
+                  type="checkbox"
+                  class="checkbox"
+                  id="extraDetailsCheck"
+                  value="true"
+                />
+                <div class="slider"></div>
+              </label>
+            </div>
+
+            <!-- if above checkbox is checked -->
+            <div id="extraDetails" style="display: none">
+              <div class="input-group">
+                <label for="originalUrl">Enter URL</label>
+                <input
+                  type="text"
+                  name="originalUrl"
+                  placeholder="Enter URL"
+                  required
+                />
+              </div>
+
+              <div class="password-fields" style="display: none">
+                <div class="input-group">
+                  <label for="password">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Enter Password"
+                    required
+                  />
+                </div>
+
+                <div class="input-group">
+                  <label for="confirmPassword">Confirm Password</label>
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    placeholder="Confirm Password"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -72,6 +122,17 @@
       </div>
     </section>
 
-    <script></script>
+    <script>
+      document
+        .getElementById("extraDetailsCheck")
+        .addEventListener("change", function () {
+          const extraDetails = document.querySelector("#extraDetails");
+          if (this.checked) {
+            extraDetails.style.display = "block";
+          } else {
+            extraDetails.style.display = "none";
+          }
+        });
+    </script>
   </body>
 </html>

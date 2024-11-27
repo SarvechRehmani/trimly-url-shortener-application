@@ -1,4 +1,4 @@
-package com.trimly.services;
+package com.trimly.services.imple;
 
 import com.trimly.exceptions.ResourceNotFoundException;
 import com.trimly.repositories.UserRepo;

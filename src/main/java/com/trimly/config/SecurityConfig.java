@@ -2,7 +2,7 @@ package com.trimly.config;
 
 import com.trimly.helper.Message;
 import com.trimly.helper.MessageType;
-import com.trimly.services.CustomUserDetailsService;
+import com.trimly.services.imple.CustomUserDetailsService;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +40,13 @@ public class SecurityConfig {
                             HttpSession session = request.getSession();
                             session.setAttribute("message", new Message("Welcome back to Trimly! You’ve successfully logged in.", MessageType.green));
                             response.sendRedirect("/");
+                            if(authentication.getAuthorities().stream().anyMatch(grantedAuthority ->
+                                grantedAuthority.getAuthority().equals("ADMIN")
+                            )){
+                                response.sendRedirect("/admin/dashboard");
+                            }else{
+                                response.sendRedirect("/");
+                            }
                         })
                         .failureHandler((request, response, exception) -> {
                             HttpSession session = request.getSession();
