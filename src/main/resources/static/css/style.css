@@ -101,18 +101,29 @@ body {
   margin-bottom: 25px;
   color: #4caf50;
 }
+#shorten {
+  width: 50%;
+  margin-right: 10px;
+}
 
-.url-shortener input[type="text"] {
-  width: 60%;
+.extraDetailsForm {
+  width: 70%;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.url-shortener input[type="text"],
+input[type="password"] {
   padding: 10px;
   font-size: 1.1em;
   border: 1px solid #4caf50;
   border-radius: 5px;
-  margin-right: 10px;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease-in-out;
 }
 
-.url-shortener input[type="text"]:focus {
+.url-shortener #shorten:focus {
   width: 70%;
   border-color: #242424;
 }
@@ -593,8 +604,10 @@ button:hover {
 }
 
 .switch {
-  display: inline-flex;
-  gap: 30px;
+  margin: 0 0 20px 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .slider {

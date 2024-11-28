@@ -14,60 +14,93 @@
         <div class="url-shortener">
           <h2>Shorten Your URL</h2>
           <form action="/shorten" method="POST">
-            <input
-              type="text"
-              name="originalUrl"
-              placeholder="Enter URL"
-              required
-            />
-            <button type="submit">Shorten</button>
-
-            <div>
-              <label class="switch"
-                >Extra Features :
-                <input
-                  type="checkbox"
-                  class="checkbox"
-                  id="extraDetailsCheck"
-                  value="true"
-                />
-                <div class="slider"></div>
-              </label>
+            <div class="input-group">
+              <input
+                type="text"
+                id="shorten"
+                name="originalUrl"
+                placeholder="Enter URL Here"
+                required
+              />
+              <button type="submit">Shorten</button>
             </div>
 
-            <!-- if above checkbox is checked -->
-            <div id="extraDetails" style="display: none">
-              <div class="input-group">
-                <label for="originalUrl">Enter URL</label>
-                <input
-                  type="text"
-                  name="originalUrl"
-                  placeholder="Enter URL"
-                  required
-                />
+            <div>
+              <div class="switch">
+                <label for="extraDetailsCheck">Add extra details :</label>
+                <label>
+                  <input
+                    type="checkbox"
+                    class="checkbox"
+                    id="extraDetailsCheck"
+                    value="true"
+                  />
+                  <div class="slider"></div>
+                </label>
               </div>
 
-              <div class="password-fields" style="display: none">
+              <!-- if above checkbox is checked -->
+              <div id="extraDetails" style="display: none">
                 <div class="input-group">
-                  <label for="password">Password</label>
                   <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="Enter Password"
+                    class="extraDetailsForm"
+                    type="text"
+                    name="title"
+                    placeholder="Enter link title here."
                     required
                   />
                 </div>
 
-                <div class="input-group">
-                  <label for="confirmPassword">Confirm Password</label>
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    id="confirmPassword"
-                    placeholder="Confirm Password"
-                    required
-                  />
+                <div class="switch">
+                  <label for="protectLinkCheck"
+                    >Protect Link :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+                    &nbsp;</label
+                  >
+                  <label>
+                    <input
+                      type="checkbox"
+                      class="checkbox"
+                      id="protectLinkCheck"
+                      value="true"
+                    />
+                    <div class="slider"></div>
+                  </label>
+                </div>
+                <!-- Allow Password if Above checkbox is checked.  -->
+
+                <div
+                  class="password-fields"
+                  id="protectLink"
+                  style="display: none"
+                >
+                  <div class="input-group">
+                    <input
+                      class="extraDetailsForm"
+                      type="password"
+                      name="password"
+                      id="password"
+                      placeholder="Enter Password"
+                      required
+                    />
+                  </div>
+
+                  <div class="input-group">
+                    <input
+                      class="extraDetailsForm"
+                      type="password"
+                      name="confirmPassword"
+                      id="confirmPassword"
+                      placeholder="Confirm Password"
+                      required
+                    />
+                    <!-- Error Message Container -->
+                    <div
+                      id="passwordError"
+                      style="color: red; display: none; font-size: small"
+                    >
+                      Passwords do not match!
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -133,6 +166,47 @@
             extraDetails.style.display = "none";
           }
         });
+
+      document
+        .getElementById("protectLinkCheck")
+        .addEventListener("change", function () {
+          const protectLink = document.querySelector("#protectLink");
+          if (this.checked) {
+            protectLink.style.display = "block";
+          } else {
+            protectLink.style.display = "none";
+          }
+        });
+
+      function checkPasswordsMatch() {
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+
+        // Get the error message element and submit button
+        const passwordError = document.getElementById("passwordError");
+        const submitButton = document.querySelector("button[type='submit']");
+
+        if (password !== confirmPassword) {
+          // Show error message and disable submit button
+          passwordError.style.display = "block";
+          submitButton.disabled = true;
+        } else {
+          // Hide error message and enable submit button
+          passwordError.style.display = "none";
+          submitButton.disabled = false;
+        }
+      }
+
+      // Event listener for password field change
+      document
+        .getElementById("password")
+        .addEventListener("change", checkPasswordsMatch);
+
+      // Event listener for confirm password field change
+      document
+        .getElementById("confirmPassword")
+        .addEventListener("change", checkPasswordsMatch);
     </script>
   </body>
 </html>
