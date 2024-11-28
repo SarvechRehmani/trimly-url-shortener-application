@@ -4,6 +4,7 @@ import com.trimly.helper.Message;
 import com.trimly.helper.MessageType;
 import com.trimly.models.entities.Link;
 import com.trimly.models.entities.User;
+import com.trimly.models.request.LinkRequestDto;
 import com.trimly.models.request.UserDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -43,6 +44,7 @@ public class UrlsController {
         boolean authenticated = authentication != null && !(authentication instanceof AnonymousAuthenticationToken);
         // Pass the 'authenticated' variable to the view
         model.addAttribute("authenticated", authenticated);
+        model.addAttribute("linkRequestDto", new LinkRequestDto());
         logger.info("home.html");
         return "home.html";
     }
