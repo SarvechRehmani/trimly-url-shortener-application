@@ -35,8 +35,22 @@ public class Link {
     @JsonIgnore
     private User user;
 
+//  using constructor for bot registered and non-registered user.
+    public Link(String shortUrl, String longUrl, String password, boolean isPasswordProtected, User user) {
+        this.shortUrl = shortUrl;
+        this.longUrl = longUrl;
+        this.count = 0;
+        this.password = password;
+        this.isPasswordProtected = isPasswordProtected;
+        this.createdAt =  LocalDateTime.now();;
+        this.updatedAt =  LocalDateTime.now();;
+        this.lastClickedAt = null;
+        this.expirationDate = null;
+        this.user = user;
+    }
 
-//    For non register users
+
+    //    For non register users
     public Link(String shortUrl, String longUrl) {
         this.shortUrl = shortUrl;
         this.longUrl = longUrl;
@@ -75,16 +89,18 @@ public class Link {
         this.user = user;
     }
 
-    public Link(String shortUrl, String longUrl, String password, boolean isPasswordProtected, User user) {
-        this.shortUrl = shortUrl;
+
+
+    public Link(String title, String longUrl, String password, boolean isPasswordProtected, LocalDateTime expirationDate, User user) {
+        this.title = title;
         this.longUrl = longUrl;
         this.count = 0;
         this.password = password;
         this.isPasswordProtected = isPasswordProtected;
-        this.createdAt =  LocalDateTime.now();;
-        this.updatedAt =  LocalDateTime.now();;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();;
         this.lastClickedAt = null;
-        this.expirationDate = null;
+        this.expirationDate = expirationDate;
         this.user = user;
     }
 

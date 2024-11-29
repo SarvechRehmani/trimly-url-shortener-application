@@ -29,16 +29,29 @@ public class LinkController {
 
     @PostMapping("/shorten")
     public String saveLink(@Valid @ModelAttribute LinkRequestDto linkRequestDto, BindingResult result, HttpSession session, Authentication authentication){
-        System.out.println(linkRequestDto);
-        System.out.println(1);
         if(result.hasErrors()){
             System.out.println(result);
             return "home";
         }
-        System.out.println(3);
-//        User user = (User) ;
-//        System.out.println(authentication.getPrincipal());
-        System.out.println(4);
+        String title = linkRequestDto.getTitle();
+        String longUrl = linkRequestDto.getLongUrl();
+        String password = "";
+
+        if(!linkRequestDto.getPassword().trim().isEmpty()){
+            linkRequestDto.setPasswordProtected(true);
+        }
+        if(linkRequestDto.isPasswordProtected()){
+            if(linkRequestDto.getPassword().trim().equals(linkRequestDto.getConfirmPassword().trim())){
+                password = linkRequestDto.getPassword();
+            }
+        }
+        User user = null;
+        if(authentication != null && authentication.isAuthenticated()){
+            user = (User) authentication.getPrincipal();
+        }
+
+        Link link = new Link(title,longUrl,password,linkRequestDto.isPasswordProtected(),user);
+        this.linkService.saveLink(link);
         return "redirect:/";
     }
 

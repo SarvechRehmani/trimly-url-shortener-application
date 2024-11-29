@@ -1,5 +1,6 @@
 package com.trimly.models.request;
 
+import com.trimly.helper.AppConstants;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -14,7 +15,7 @@ public class UserDto {
 
     @NotBlank(message = "Name is required. Please enter your name.")
     private String fullName;
-    @Email(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Please enter a valid email address.")
+    @Email(regexp = AppConstants.EMAIL_MATCHER_REGEX_PATTERN, message = "Please enter a valid email address.")
     private String email;
     @NotBlank(message = "Password is required. Please enter a password.")
     @Size(min = 6, message = "Password must be at least 6 characters long.")

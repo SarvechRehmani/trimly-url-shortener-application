@@ -1,11 +1,13 @@
 package com.trimly.controllers;
 
+import com.trimly.helper.AuthenticatedUserHelper;
 import com.trimly.helper.Message;
 import com.trimly.helper.MessageType;
 import com.trimly.models.entities.Link;
 import com.trimly.models.entities.User;
 import com.trimly.models.request.LinkRequestDto;
 import com.trimly.models.request.UserDto;
+import com.trimly.models.response.UserResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -14,12 +16,15 @@ import com.trimly.services.imple.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 public class UrlsController {
@@ -38,10 +43,16 @@ public class UrlsController {
 
 //    Home Controller
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, Authentication authentication) {
         // Check if the user is authenticated
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean authenticated = authentication != null && !(authentication instanceof AnonymousAuthenticationToken);
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        boolean authenticated = authentication != null && !(authentication instanceof AnonymousAuthenticationToken);
+        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
+        boolean authenticated = (authenticationToken != null && authenticationToken.isAuthenticated());
+        if (authenticated){
+            UserResponseDto userResponseDto = AuthenticatedUserHelper.getUserResponseDto(authenticationToken);
+            model.addAttribute("user", userResponseDto);
+        }
         // Pass the 'authenticated' variable to the view
         model.addAttribute("authenticated", authenticated);
         model.addAttribute("linkRequestDto", new LinkRequestDto());

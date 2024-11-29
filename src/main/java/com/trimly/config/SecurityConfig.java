@@ -39,7 +39,6 @@ public class SecurityConfig {
                         .successHandler((request, response, authentication) -> {
                             HttpSession session = request.getSession();
                             session.setAttribute("message", new Message("Welcome back to Trimly! You’ve successfully logged in.", MessageType.green));
-                            response.sendRedirect("/");
                             if(authentication.getAuthorities().stream().anyMatch(grantedAuthority ->
                                 grantedAuthority.getAuthority().equals("ADMIN")
                             )){

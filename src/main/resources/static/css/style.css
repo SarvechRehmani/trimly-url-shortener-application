@@ -239,7 +239,7 @@ th {
 }
 
 .pl-5 {
-  padding-left: 13%;
+  padding-left: 13% !important;
 }
 
 .mb-3 {

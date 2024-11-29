@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUserByEmail(String email){
-        return this.userRepository.findByEmail(email);
+        return this.userRepository.findByEmailIgnoreCase(email);
     }
 
 }

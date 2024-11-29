@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class LinkServiceImpl implements LinkService {
@@ -24,6 +26,10 @@ public class LinkServiceImpl implements LinkService {
 
     @Override
     public Link saveLink(Link link) {
+        link.setShortUrl(this.generateShortLink());
+        if(link.getUser() == null){
+            link.setExpirationDate(LocalDateTime.now().plusDays(1));
+        }
         this.logger.info("Saving Link into the database : {}", link);
         return this.linkRepo.save(link);
     }
@@ -50,5 +56,10 @@ public class LinkServiceImpl implements LinkService {
     public void deleteLink(long id) {
         this.logger.info("Deleting Link by id : {}",id);
         this.linkRepo.deleteById(id);
+    }
+
+
+    public String generateShortLink(){
+        return UUID.randomUUID().toString().replaceAll("-", "").substring(0, 6);
     }
 }

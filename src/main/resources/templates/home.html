@@ -38,7 +38,7 @@
               </div>
             </div>
 
-            <div>
+            <div th:if="${authenticated}">
               <div class="switch">
                 <label for="extraDetailsCheck">Add extra details :</label>
                 <label>
@@ -107,8 +107,9 @@
                     />
                     <!-- Error Message Container -->
                     <div
+                      class="error pl-5"
                       id="passwordError"
-                      style="color: red; display: none; font-size: small"
+                      style="display: none"
                     >
                       Passwords do not match!
                     </div>
@@ -121,7 +122,7 @@
       </div>
 
       <!-- Single Table for Features -->
-      <div class="card-container">
+      <div class="card-container" th:if="!${authenticated}">
         <h3>Benefits of Using Trimly</h3>
         <table>
           <thead>
@@ -203,22 +204,26 @@
           // Show error message and disable submit button
           passwordError.style.display = "block";
           submitButton.disabled = true;
+          submitButton.style.cursor = "not-allowed"; // Change cursor to indicate it's disabled
+          submitButton.style.backgroundColor = "#d3d3d3"; // Light gray
         } else {
           // Hide error message and enable submit button
           passwordError.style.display = "none";
           submitButton.disabled = false;
+          submitButton.style.cursor = "pointer"; // Change cursor to indicate it's disabled
+          submitButton.style.backgroundColor = "#4caf50"; // Light gray
         }
       }
 
       // Event listener for password field change
       document
         .getElementById("password")
-        .addEventListener("change", checkPasswordsMatch);
+        .addEventListener("input", checkPasswordsMatch);
 
       // Event listener for confirm password field change
       document
         .getElementById("confirmPassword")
-        .addEventListener("change", checkPasswordsMatch);
+        .addEventListener("input", checkPasswordsMatch);
     </script>
   </body>
 </html>
