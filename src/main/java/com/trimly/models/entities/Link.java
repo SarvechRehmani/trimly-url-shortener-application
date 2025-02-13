@@ -25,19 +25,19 @@ public class Link {
     private long count;
     private String password;
     private boolean isPasswordProtected;
+    private boolean isActive = true;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime lastClickedAt;
     private LocalDateTime expirationDate;
 
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-//  using constructor for bot registered and non-registered user.
-    public Link(String shortUrl, String longUrl, String password, boolean isPasswordProtected, User user) {
-        this.shortUrl = shortUrl;
+//  using constructor for both registered and non-registered user.
+    public Link(String title, String longUrl, String password, boolean isPasswordProtected, User user) {
+        this.title = title;
         this.longUrl = longUrl;
         this.count = 0;
         this.password = password;

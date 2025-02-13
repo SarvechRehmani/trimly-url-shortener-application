@@ -45,12 +45,11 @@ public class UrlsController {
     @GetMapping("/")
     public String index(Model model, Authentication authentication) {
         // Check if the user is authenticated
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        boolean authenticated = authentication != null && !(authentication instanceof AnonymousAuthenticationToken);
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
         boolean authenticated = (authenticationToken != null && authenticationToken.isAuthenticated());
         if (authenticated){
-            UserResponseDto userResponseDto = AuthenticatedUserHelper.getUserResponseDto(authenticationToken);
+            User user = AuthenticatedUserHelper.getAuthenticatedUser(authenticationToken);
+            UserResponseDto userResponseDto = modelMapper.map(user, UserResponseDto.class);
             model.addAttribute("user", userResponseDto);
         }
         // Pass the 'authenticated' variable to the view

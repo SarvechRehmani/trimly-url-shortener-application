@@ -14,26 +14,16 @@ import java.util.Optional;
 @Component
 public class AuthenticatedUserHelper {
 
-
-
-    public static UserResponseDto getUserResponseDto(UsernamePasswordAuthenticationToken token) {
-        Object principal = token.getPrincipal();
+    public static User getAuthenticatedUser(Authentication authentication) {
+        Object principal = authentication.getPrincipal();
         if (principal instanceof User user) { // Replace `User` with your custom User class
             // Access user details
             System.out.println("User: " + user);
-            // Other fields as needed
-            return UserResponseDto.builder()
-                    .id(user.getId())
-                    .name(user.getFullName())
-                    .email(user.getEmail())
-                    .phone(user.getPhone())
-                    .gender(user.getGender())
-                    .profilePic(user.getProfilePic())
-                    .build();
+
         } else {
             System.out.println("Principal is not an instance of User.");
             return null;
         }
-
+        return user;
     }
 }

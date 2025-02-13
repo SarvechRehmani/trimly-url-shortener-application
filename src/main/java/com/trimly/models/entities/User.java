@@ -1,5 +1,6 @@
 package com.trimly.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Setter
 @Getter
-@ToString
 @Entity
 public class User implements UserDetails{
     @Id
@@ -33,7 +33,8 @@ public class User implements UserDetails{
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    @JsonIgnore
     private List<Link> links = new ArrayList<>();
 
     public User(String fullName, String email, String password, String phone, String gender, List<String> roles) {
@@ -60,4 +61,6 @@ public class User implements UserDetails{
     public String getUsername() {
         return this.email;
     }
+
+
 }

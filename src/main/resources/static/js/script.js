@@ -52,3 +52,41 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error("Hamburger or Navbar Buttons element not found.");
   }
 });
+
+// Password matching...
+function checkPasswordsMatch() {
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  // Get the error message element and submit button
+  const passwordError = document.getElementById("passwordError");
+  const submitButton = document.querySelector("button[type='submit']");
+
+  if (password !== confirmPassword) {
+    // Show error message and disable submit button
+    passwordError.style.display = "block";
+
+    // Styling submit button if password is not match.
+    submitButton.disabled = true;
+    submitButton.style.cursor = "not-allowed";
+    submitButton.style.backgroundColor = "#d3d3d3";
+  } else {
+    // Hide error message and enable submit button
+    passwordError.style.display = "none";
+
+    // Default designing.
+    submitButton.disabled = false;
+    submitButton.style.cursor = "pointer";
+    submitButton.style.backgroundColor = "#4caf50";
+  }
+}
+
+// Event listener for password field change
+document
+  .getElementById("password")
+  .addEventListener("input", checkPasswordsMatch);
+
+// Event listener for confirm password field change
+document
+  .getElementById("confirmPassword")
+  .addEventListener("input", checkPasswordsMatch);
