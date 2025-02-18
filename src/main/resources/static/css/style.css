@@ -114,6 +114,10 @@ body {
   margin-bottom: 20px;
 }
 
+.grid {
+  display: grid;
+}
+
 .url-shortener input[type="text"],
 input[type="password"] {
   padding: 10px;
@@ -240,6 +244,17 @@ th {
 
 .pl-5 {
   padding-left: 13% !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.mt-3 {
+  margin-top: 20px;
+}
+.w-full {
+  width: 100%;
 }
 
 .mb-3 {
@@ -492,7 +507,7 @@ button:hover {
   .card-container {
     padding: 20px; /* Reduce padding */
   }
-  horizontally
+
   /* Table becomes  scrollable on small screens */
   table {
     overflow-x: auto;
@@ -515,6 +530,11 @@ button:hover {
 
   .form form {
     padding: 0 10px;
+  }
+
+  .link-table {
+    padding: 7px 5px;
+    font-size: 13px;
   }
 }
 
@@ -760,4 +780,48 @@ button:hover {
   to {
     opacity: 1;
   }
+}
+
+/* Link table */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+.link-table {
+  font-size: 0.8rem !important;
+}
+
+.link-td {
+  padding: 0 15px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.link-th {
+  text-align: left;
+  padding: 4px;
+  font-size: 1em;
+}
+.action-td {
+  display: flex;
+}
+
+.link-action-btn {
+  padding: 6px 10px;
+  border-radius: 15px;
+  background: gray;
+  color: white;
+  text-decoration: none;
+  margin: 0 2px;
+  transition: all 0.8 ease-in-out;
+}
+
+.delete:hover {
+  background: rgb(255, 0, 0) !important;
+}
+.edit:hover {
+  background: #9e6c00 !important;
 }

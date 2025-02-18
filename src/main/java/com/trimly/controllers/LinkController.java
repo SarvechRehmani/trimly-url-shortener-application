@@ -13,9 +13,11 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
@@ -80,12 +82,13 @@ public class LinkController {
         Link link = new Link(title, longUrl, password, linkRequestDto.isPasswordProtected(), user, userIp);
         Link savedLink = this.linkService.saveLink(link);
         // Return success response with the shortened URL
-        return ResponseEntity.ok(new LinkResponseDto("success", "Link has been successfully created!", AppConstants.BASE_URL+link.getShortUrl()));
+        return ResponseEntity.ok(new LinkResponseDto("success", "Link has been successfully created!", link.getShortUrl()));
     }
 
     @GetMapping("/{shortUrl}")
-    public  String redirectLink(@PathVariable String shortUrl, HttpSession session){
-        Link link = this.linkService.getLinkByShortUrl(shortUrl).orElse(null);
+    public  String redirectLink(@PathVariable String shortUrl, HttpSession session, Model model){
+        String shortUrlKey = AppConstants.BASE_URL+shortUrl;
+        Link link = this.linkService.getLinkByShortUrl(shortUrlKey).orElse(null);
 
         if (link == null){
             this.logger.info("Page not Found.");
@@ -100,8 +103,44 @@ public class LinkController {
         link.setCount(link.getCount()+1);
         link.setLastClickedAt(LocalDateTime.now());
         this.linkService.updateLink(link);
+
+        if(link.getPassword()!=null && !link.getPassword().isEmpty()){
+            model.addAttribute("link", link);
+            return "protected-link";
+        }
+
         String redirectUrl = link.getLongUrl().startsWith("https://") ? link.getLongUrl() : "https://"+link.getLongUrl();
         return "redirect:"+redirectUrl;
     }
 
+    @DeleteMapping("/delete/{id}")
+    public String deleteLink(@PathVariable long id, HttpServletRequest request, Authentication authentication, HttpSession session){
+
+        // Authenticated user
+        User user = null;
+        if (authentication != null && authentication.isAuthenticated()) {
+            user = (User) authentication.getPrincipal();
+        }
+        String userIp = AppConstants.getClientIp(request);
+        Link link = this.linkService.getLinkByIdAndUserOrUserIp(id,user,userIp).orElse(null);
+        if(link == null){
+            session.setAttribute("message", new Message("Link not found.", MessageType.red));
+        }else{
+            this.linkService.deleteLink(id);
+            session.setAttribute("message", new Message("Link has been deleted.!", MessageType.green));
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/link-password")
+    public String linkProtected(@RequestParam("shortUrl") String shortUrl, @RequestParam("input-password") String inputPassword,  HttpSession session){
+        Link link = this.linkService.getLinkByShortUrl(shortUrl).orElse(null);
+        System.out.println(link);
+        if (link!= null && link.getPassword().equals(inputPassword)){
+            String redirectUrl = link.getLongUrl().startsWith("https://") ? link.getLongUrl() : "https://"+link.getLongUrl();
+            return "redirect:"+redirectUrl;
+        }
+        session.setAttribute("message", new Message("Password is not match.!", MessageType.red));
+        return "protected-link";
+    }
 }

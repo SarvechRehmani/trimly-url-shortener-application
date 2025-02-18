@@ -83,7 +83,7 @@ public class UrlsController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             // If the user is authenticated, redirect to the home page
-            logger.info("Redirecting from : login.html");
+            logger.info("Redirecting from : Home");
             return "redirect:/";
         }
         model.addAttribute("currentPage", "sign-in");

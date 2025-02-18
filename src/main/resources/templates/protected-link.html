@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  th:replace="~{base :: parent(~{::#content},~{::title}, ~{::script})}"
+>
+  <head>
+    <title>Password Protected - URL Shortener</title>
+  </head>
+  <body>
+    <section id="content">
+      <div th:replace="~{components :: alertBox}"></div>
+      <!-- URL Shortener Section -->
+      <div class="container">
+        <div class="url-shortener">
+          <h2 class="mb-0" th:text="${link.shortUrl}"></h2>
+          <p>Link is protected please enter password for access to the link.</p>
+          <form
+            class="mt-3"
+            th:action="@{/link-password}"
+            th:object="${link}"
+            method="POST"
+            novalidate
+          >
+            <input type="hidden" name="shortUrl" th:value="*{shortUrl}" />
+            <div class="grid">
+              <div class="input-group">
+                <input
+                  class="w-full"
+                  type="password"
+                  id="input-password"
+                  name="input-password"
+                  placeholder="Enter Password Here"
+                  required
+                />
+                <div class="pl-5">
+                  <!-- Error message container for longUrl -->
+                  <p class="error" id="longUrlError"></p>
+                </div>
+              </div>
+              <button class="" type="submit">Access Link</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <script src="/js/script.js"></script>
+    <script></script>
+  </body>
+</html>

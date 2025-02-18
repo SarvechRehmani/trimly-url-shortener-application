@@ -90,3 +90,25 @@ document
 document
   .getElementById("confirmPassword")
   .addEventListener("input", checkPasswordsMatch);
+
+document
+  .getElementById("extraDetailsCheck")
+  .addEventListener("change", function () {
+    const extraDetails = document.querySelector("#extraDetails");
+    if (this.checked) {
+      extraDetails.style.display = "block";
+    } else {
+      extraDetails.style.display = "none";
+    }
+  });
+
+document
+  .getElementById("protectLinkCheck")
+  .addEventListener("change", function () {
+    const protectLink = document.querySelector("#protectLink");
+    if (this.checked) {
+      protectLink.style.display = "block";
+    } else {
+      protectLink.style.display = "none";
+    }
+  });

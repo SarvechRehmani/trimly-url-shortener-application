@@ -122,6 +122,53 @@
         </div>
       </div>
 
+      <div class="card-container" th:if="${links.size > 0}">
+        <h3>Your Shorten URLs</h3>
+        <div class="table-wrapper">
+          <!-- Added wrapper for responsive scroll -->
+          <table class="link-table">
+            <thead>
+              <tr>
+                <th class="link-th">#</th>
+                <th class="link-th">Long URL</th>
+                <th class="link-th">Short URL</th>
+                <th th:if="${authenticated}" class="link-th">Title</th>
+                <th th:if="${authenticated}" class="link-th">Password</th>
+                <th class="link-th">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="link, iter: ${links}" th:object="${link}">
+                <td class="link-td" th:text="${iter.index+1}"></td>
+                <td class="link-td" th:text="*{longUrl}"></td>
+                <td class="link-td" th:text="*{shortUrl}"></td>
+                <td
+                  class="link-td"
+                  th:if="${authenticated}"
+                  th:text="*{title}"
+                ></td>
+                <td
+                  class="link-td"
+                  th:if="${authenticated}"
+                  th:text="*{password}"
+                ></td>
+                <td class="link-td action-td">
+                  <button class="link-action-btn edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button
+                    class="link-action-btn delete"
+                    th:onclick="deleteLink([[*{id}]])"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- Single Table for Features -->
       <div class="card-container" th:if="!${authenticated}">
         <h3>Benefits of Using Trimly</h3>
@@ -169,7 +216,9 @@
       </div>
     </section>
 
+    <script src="/js/script.js"></script>
     <script>
+      const baseURL = "http://localhost:8080";
       document
         .querySelector("form")
         .addEventListener("submit", async function (event) {
@@ -221,27 +270,38 @@
             });
         });
 
-      document
-        .getElementById("extraDetailsCheck")
-        .addEventListener("change", function () {
-          const extraDetails = document.querySelector("#extraDetails");
-          if (this.checked) {
-            extraDetails.style.display = "block";
-          } else {
-            extraDetails.style.display = "none";
-          }
-        });
+      function deleteLink(id) {
+        const isDarkMode = document.body.classList.contains("dark");
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          background: isDarkMode ? "#3d3d3d" : "#ffffff", // Background color fix
+          color: isDarkMode ? "#ffffff" : "#000000", // Text color fix for readability
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#298700",
+          confirmButtonText: "Yes, delete it!",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const data = await (
+              await fetch(`${baseURL}/delete/${id}`, {
+                method: "DELETE",
+              })
+            ).json();
 
-      document
-        .getElementById("protectLinkCheck")
-        .addEventListener("change", function () {
-          const protectLink = document.querySelector("#protectLink");
-          if (this.checked) {
-            protectLink.style.display = "block";
-          } else {
-            protectLink.style.display = "none";
+            Swal.fire({
+              title: "Deleted!",
+              text: data + " deleted.",
+              icon: "success",
+              background: isDarkMode ? "#3d3d3d" : "#ffffff", // Fix applied here too
+              color: isDarkMode ? "#ffffff" : "#000000",
+              confirmButtonColor: "#298700",
+            });
+            window.location.reload();
           }
         });
+      }
     </script>
   </body>
 </html>

@@ -1,6 +1,7 @@
 package com.trimly.services.imple;
 
 import com.trimly.exceptions.ResourceNotFoundException;
+import com.trimly.helper.AppConstants;
 import com.trimly.models.entities.Link;
 import com.trimly.models.entities.User;
 import com.trimly.repositories.LinkRepo;
@@ -28,7 +29,7 @@ public class LinkServiceImpl implements LinkService {
 
     @Override
     public Link saveLink(Link link) {
-        link.setShortUrl(this.generateShortLink());
+        link.setShortUrl(AppConstants.BASE_URL+this.generateShortLink());
         if(link.getUser() == null){
             link.setExpirationDate(LocalDateTime.now().plusDays(1));
         }
@@ -49,13 +50,18 @@ public class LinkServiceImpl implements LinkService {
     }
 
     @Override
+    public Optional<Link> getLinkByIdAndUserOrUserIp(long id, User user, String userIp) {
+        return this.linkRepo.findByIdAndUserOrUserIp(id,user,userIp);
+    }
+
+    @Override
     public List<Link> getAllLinksByUser(User user) {
         return this.linkRepo.findByUser(user);
     }
 
     @Override
     public List<Link> getAllLinksByUserIp(String userIp) {
-        return this.linkRepo.findByUserIp(userIp);
+        return this.linkRepo.findByUserIpAndUser(userIp, null);
     }
 
     @Override
