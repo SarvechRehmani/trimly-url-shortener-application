@@ -1,5 +1,6 @@
 package com.trimly.controllers;
 
+import com.trimly.helper.AppConstants;
 import com.trimly.helper.AuthenticatedUserHelper;
 import com.trimly.helper.Message;
 import com.trimly.helper.MessageType;
@@ -8,6 +9,7 @@ import com.trimly.models.entities.User;
 import com.trimly.models.request.LinkRequestDto;
 import com.trimly.models.request.UserDto;
 import com.trimly.models.response.UserResponseDto;
+import com.trimly.services.LinkService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -32,29 +34,39 @@ public class UrlsController {
 
     private final UserServiceImpl userService;
 
+    private final LinkService linkService;
+
     private final ModelMapper modelMapper;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public UrlsController(UserServiceImpl userService, ModelMapper modelMapper) {
+    public UrlsController(UserServiceImpl userService, LinkService linkService, ModelMapper modelMapper) {
         this.userService = userService;
+        this.linkService = linkService;
         this.modelMapper = modelMapper;
     }
 
 //    Home Controller
     @GetMapping("/")
-    public String index(Model model, Authentication authentication) {
+    public String index(Model model, Authentication authentication, HttpServletRequest request) {
         // Check if the user is authenticated
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
         boolean authenticated = (authenticationToken != null && authenticationToken.isAuthenticated());
+        User user = null;
         if (authenticated){
-            User user = AuthenticatedUserHelper.getAuthenticatedUser(authenticationToken);
+            user = AuthenticatedUserHelper.getAuthenticatedUser(authenticationToken);
             UserResponseDto userResponseDto = modelMapper.map(user, UserResponseDto.class);
             model.addAttribute("user", userResponseDto);
         }
         // Pass the 'authenticated' variable to the view
         model.addAttribute("authenticated", authenticated);
         model.addAttribute("linkRequestDto", new LinkRequestDto());
+        String userIp = AppConstants.getClientIp(request);
+        if(user == null){
+            model.addAttribute("links", this.linkService.getAllLinksByUserIp(userIp));
+        }else{
+            model.addAttribute("links", this.linkService.getAllLinksByUser(user));
+        }
         logger.info("home.html");
         return "home.html";
     }

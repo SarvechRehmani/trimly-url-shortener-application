@@ -2,6 +2,7 @@ package com.trimly.services.imple;
 
 import com.trimly.exceptions.ResourceNotFoundException;
 import com.trimly.models.entities.Link;
+import com.trimly.models.entities.User;
 import com.trimly.repositories.LinkRepo;
 import com.trimly.services.LinkService;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -44,6 +46,16 @@ public class LinkServiceImpl implements LinkService {
     public Optional<Link> getLinkByShortUrl(String shortUrl) {
         this.logger.info("Finding Link by short url : {}",shortUrl);
         return this.linkRepo.findByShortUrl(shortUrl);
+    }
+
+    @Override
+    public List<Link> getAllLinksByUser(User user) {
+        return this.linkRepo.findByUser(user);
+    }
+
+    @Override
+    public List<Link> getAllLinksByUserIp(String userIp) {
+        return this.linkRepo.findByUserIp(userIp);
     }
 
     @Override

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  th:replace="~{base :: parent(~{::#content},~{::title}, ~{::script})}"
+>
+  <head>
+    <title>404 Not Found - Trimly</title>
+  </head>
+  <body>
+    <section id="content">
+      <div class="error-container">
+        <div class="error-box">
+          <h1 class="error-title">404</h1>
+          <p class="error-text">
+            Oops! The page you're looking for does not exist.
+          </p>
+          <a href="/" class="error-btn">Back to Home</a>
+        </div>
+      </div>
+    </section>
+    <script></script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  th:replace="~{base :: parent(~{::#content},~{::title}, ~{::script})}"
+>
+  <head>
+    <title>Link Expired - Trimly</title>
+  </head>
+  <body>
+    <section id="content">
+      <div class="error-container">
+        <div class="error-box">
+          <h1 class="error-expire-title">Link Expired</h1>
+          <p class="error-text">
+            The link you are trying to access has expired. Please generate a new
+            shortened link or return to the homepage.
+          </p>
+          <a href="/" class="error-btn">Back to Home</a>
+        </div>
+      </div>
+    </section>
+    <script></script>
+  </body>
+</html>

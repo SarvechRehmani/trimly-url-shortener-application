@@ -31,22 +31,24 @@ public class Link {
     private LocalDateTime updatedAt;
     private LocalDateTime lastClickedAt;
     private LocalDateTime expirationDate;
+    private String userIp;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
 //  using constructor for both registered and non-registered user.
-    public Link(String title, String longUrl, String password, boolean isPasswordProtected, User user) {
+    public Link(String title, String longUrl, String password, boolean isPasswordProtected, User user,String userIp) {
         this.title = title;
         this.longUrl = longUrl;
         this.count = 0;
         this.password = password;
         this.isPasswordProtected = isPasswordProtected;
-        this.createdAt =  LocalDateTime.now();;
-        this.updatedAt =  LocalDateTime.now();;
+        this.createdAt =  LocalDateTime.now();
+        this.updatedAt =  LocalDateTime.now();
         this.lastClickedAt = null;
         this.expirationDate = null;
         this.user = user;
+        this.userIp = userIp;
     }
 
 
