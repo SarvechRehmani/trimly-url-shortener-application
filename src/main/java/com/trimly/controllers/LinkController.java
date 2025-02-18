@@ -133,14 +133,15 @@ public class LinkController {
     }
 
     @PostMapping("/link-password")
-    public String linkProtected(@RequestParam("shortUrl") String shortUrl, @RequestParam("input-password") String inputPassword,  HttpSession session){
+    public String linkProtected(@RequestParam("shortUrl") String shortUrl, @RequestParam("input-password") String inputPassword,  HttpSession session, Model model){
         Link link = this.linkService.getLinkByShortUrl(shortUrl).orElse(null);
-        System.out.println(link);
         if (link!= null && link.getPassword().equals(inputPassword)){
             String redirectUrl = link.getLongUrl().startsWith("https://") ? link.getLongUrl() : "https://"+link.getLongUrl();
             return "redirect:"+redirectUrl;
+        }else{
+            model.addAttribute("link",link);
+            session.setAttribute("message", new Message("Password is not match.!", MessageType.red));
+            return "protected-link";
         }
-        session.setAttribute("message", new Message("Password is not match.!", MessageType.red));
-        return "protected-link";
     }
 }
