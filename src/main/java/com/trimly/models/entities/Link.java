@@ -21,6 +21,7 @@ public class Link {
     private long id;
     private String title;
     private String shortUrl;
+    @Column(length = 1000)
     private String longUrl;
     private long count;
     private String password;

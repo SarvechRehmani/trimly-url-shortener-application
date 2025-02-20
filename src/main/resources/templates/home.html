@@ -153,8 +153,11 @@
                   th:text="*{password}"
                 ></td>
                 <td class="link-td action-td">
-                  <button class="link-action-btn edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
+                  <button
+                    class="link-action-btn edit"
+                    th:onclick="viewLink([[${link}]])"
+                  >
+                    <i class="fa-solid fa-eye"></i>
                   </button>
                   <button
                     class="link-action-btn delete"
@@ -301,6 +304,42 @@
             window.location.reload();
           }
         });
+      }
+      function viewLink(link) {
+        const isDarkMode = document.body.classList.contains("dark");
+        Swal.fire({
+          title: "🔗 Link Details",
+          html: `
+          <div style='color: ${isDarkMode ? "#fff;" : "#444;"}'>
+          <p><strong>📌 Title:</strong> ${link.title}</p>
+          <p><strong>🌍 Long URL:</strong> <a href="${
+            link.longUrl
+          }" target="_blank">${link.longUrl}</a></p>
+          <p><strong>🔗 Short URL:</strong> <a href="${
+            link.shortUrl
+          }" target="_blank">${link.shortUrl}</a></p>
+          <p><strong>🔑 Password:</strong> ${
+            link.password ? "******" : "None"
+          }</p>
+          <p><strong>📊 Click Count:</strong> ${link.count}</p>
+          <p><strong>🕰️ Last Click Date:</strong> ${formatDate(
+            link.lastClickedAt
+          )}</p>
+          <p><strong>📅 Created Date:</strong> ${formatDate(link.createdAt)}</p>
+          <p><strong>⏳ Expiry Date:</strong> ${formatDate(
+            link.expirationDate
+          )}</p>
+          </div>
+        `,
+          background: isDarkMode ? "#3d3d3d" : "#ffffff",
+          color: isDarkMode ? "#fff" : "#444",
+          showCloseButton: true,
+          confirmButtonText: "OK ✅",
+        });
+      }
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleString();
       }
     </script>
   </body>
